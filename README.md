@@ -1,12 +1,12 @@
 
 
-# 								Home-away v1.0.0
+# 								Home-stay v1.0.0
 
 
 
 ## Deploye Link:
 
-https://home-away-bruce.vercel.app/
+https://home-stay-xiaojuan-li.vercel.app/
 
 
 
@@ -31,7 +31,6 @@ NEXT_PUBLIC_ALI_SECRET_KEY=<your ali secret key>
 NEXT_PUBLIC_ALI_ACS_RAM_NAME=<your ali acs:ram name>
 NEXT_PUBLIC_ALI_FILES_PATH=<your ali files pathname>
 ```
-
 
 
 3. Run the project:
