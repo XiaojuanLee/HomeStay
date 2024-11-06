@@ -26,9 +26,11 @@ async function EditRentalPage({params}: { params: { id: string } }) {
             <div className="border rounded p-8 mt-8">
 
                 <ImageInputContainer image={property.image} name={property.name} action={updateImageAction}
-                                     text="Update Image"/>
+                                     text="Update Image">
+                    <input type='hidden' name='id' value={property.id}/>
+                </ImageInputContainer>
                 <FormContainer action={updatePropertyAction}>
-                    <input type="hidden" name="id" value={property.id}/>
+                <input type="hidden" name="id" value={property.id}/>
                     <div className="mt-8 grid grid-cols-2 gap-8">
                         <FormInput label="Name(20 limit)" name="name" type="text" defaultValue={property.name}/>
                         <FormInput label="tagline(30 limit)" name="tagline" type="text"
