@@ -113,28 +113,56 @@ export async function updateProfile(preState: any, formData: FormData) {
 
 }
 
-export async function updateImageAction(preState: any, formData: FormData) {
-    const user = await getAuthUser();
-    try {
-        const image = formData.get("image") as File;
-        const result = validateWithZodSchema(imageSchema, {image: image});
+// export async function updateImageAction(preState: any, formData: FormData) {
+//     const user = await getAuthUser();
+//     try {
+//         const image = formData.get("image") as File;
+//         const result = validateWithZodSchema(imageSchema, {image: image});
+//
+//         const url = await uploadImage(result.image);
+//         await db.profile.update({
+//             where: {
+//                 clerkId: user.id
+//             },
+//             data: {
+//                 profileImage: url
+//             }
+//         })
+//         revalidatePath('/profile')
+//     } catch (e) {
+//         return renderError(e)
+//     }
+//
+//     return {message: "image upload succeed"};
+// }
 
-        const url = await uploadImage(result.image);
-        await db.profile.update({
+export const updateImageAction = async (
+    prevState: any,
+    formData: FormData
+): Promise<{ message: string }> => {
+    const user = await getAuthUser();
+    const propertyId = formData.get('id') as string;
+
+    try {
+        const image = formData.get('image') as File;
+        const validatedFields = validateWithZodSchema(imageSchema, { image });
+        const fullPath = await uploadImage(validatedFields.image);
+
+        await db.property.update({
             where: {
-                clerkId: user.id
+                id: propertyId,
+                profileId: user.id,
             },
             data: {
-                profileImage: url
-            }
-        })
-        revalidatePath('/profile')
-    } catch (e) {
-        return renderError(e)
+                image: fullPath,
+            },
+        });
+        revalidatePath(`/rentals/${propertyId}/edit`);
+        return { message: 'Property Image Updated Successful' };
+    } catch (error) {
+        return renderError(error);
     }
-
-    return {message: "image upload succeed"};
-}
+};
 
 export async function createPropertyAction(preState: any, formData: FormData) {
     try {
